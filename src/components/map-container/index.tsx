@@ -24,7 +24,6 @@ const MapContainer : React.FC = () => {
 
     const closeContextMenu : () => void = () => {
         if(closeRef.current) closeRef.current();
-        console.log('A');
     }
 
 
@@ -45,7 +44,7 @@ const MapContainer : React.FC = () => {
     }
 
 
-    const handleWheel = useCallback((event: WheelEvent) => {
+    const handleWheel = useCallback(() => {
         if(closeRef.current) closeRef.current();
 
         if(!mapObjectRef.current) return;
