@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "NanumBarunGothic";
+    src: url(./NanumBarunGothic.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "NanumBarunGothic";
+    src: url(./NanumBarunGothicBold.ttf);
+    font-weight: 700;
+}

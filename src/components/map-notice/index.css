@@ -1,0 +1,14 @@
+.vwmap-notice {
+    height: 35px;
+    bottom: var(--vwmap-bottom-height);
+    left: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.vwmap-notice-image {
+    float: left;
+}

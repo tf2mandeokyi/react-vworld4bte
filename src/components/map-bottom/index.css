@@ -1,0 +1,36 @@
+.vwmap-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--vwmap-bottom-height);
+    font-size: 16px;
+    text-align: right;
+    padding: 0 30px;
+    color: white;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.vwmap-bottom-left {
+    float: left;
+}
+
+.vwmap-bottom-right {
+    float: right;
+}
+
+.vwmap-bottom-image {
+    display: inline-block;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.location-info {
+    margin: 0 10px;
+    height: var(--vwmap-bottom-height);
+    line-height: var(--vwmap-bottom-height);
+}
+
+.location-info > output {
+    margin-left: 20px;
+}
