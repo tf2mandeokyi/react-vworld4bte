@@ -79,19 +79,6 @@ const MapContainer : React.FC = () => {
     })
 
 
-    useEffect(() => {
-        let interval = setInterval(() => {
-            if(!mapObjectRef.current) return;
-            let map = mapObjectRef.current;
-
-            console.log(map.crs);
-        }, 1000);
-        return () => {
-            clearInterval(interval);
-        }
-    })
-
-
     return <div className="vwmap-container">
         <div id="vwmap" />
         <MapBottom 

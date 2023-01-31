@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { getDistortionAmount } from '../../lib/bte-projection/math';
 import { textToClipboard } from '../../lib/clipboard';
 import './index.css'
 
@@ -11,6 +12,7 @@ interface RightClickMenuProps {
 
 const RightClickMenu : React.FC<RightClickMenuProps> = ({ copyCoord, closeRef }) => {
 
+    const projection = window.bteProjection;
     const [ coordinate, setCoordinate ] = useState<vw.CartographicCoordinate>();
     const [ anchorPoint, setAnchorPoint ] = useState<vw.Pixel>({ x: 0, y: 0 });
     const [ show, setShow ] = useState<boolean>(false);
@@ -21,6 +23,15 @@ const RightClickMenu : React.FC<RightClickMenuProps> = ({ copyCoord, closeRef })
     closeRef.current = () => {
         setShow(false);
     };
+
+    const getDistortion = useCallback(() => {
+        if(!coordinate) return 0;
+
+        let { longitudeDD: lon, latitudeDD: lat } = coordinate;
+        let tissot = projection.tissot({ lon, lat });
+
+        return getDistortionAmount(tissot).value;
+    }, [ projection, coordinate ]);
 
     const handleMouseMove = useCallback(({ x, y }: MouseEvent) => {
         mouseDownPosRef.current = { x, y };
@@ -75,6 +86,9 @@ const RightClickMenu : React.FC<RightClickMenuProps> = ({ copyCoord, closeRef })
                 setShow(false);
             } }>
                 고도 = { coordinate?.height.toFixed(2) }m
+            </li>
+            <li>
+                왜곡 값 ≈ { getDistortion().toFixed(5) }m
             </li>
         </ul>
     )

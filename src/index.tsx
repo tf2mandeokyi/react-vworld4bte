@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import MapContainer from './components/map-container';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
+import './constants'
+
+import './index.css';
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
