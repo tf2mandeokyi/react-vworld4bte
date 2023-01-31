@@ -35,8 +35,8 @@ const MapBottom : React.FC<MapBottomProps> = (props) => {
     return <div className="vwmap-bottom">
         <MapBottomElement>내려다보는 높이 { cameraAltitudeString }</MapBottomElement>
         <MapBottomElement>고도 { cursorAltitudeString }</MapBottomElement>
-        <MapBottomElement>{ cursorLatitudeString }</MapBottomElement>
         <MapBottomElement>{ cursorLongitudeString }</MapBottomElement>
+        <MapBottomElement>{ cursorLatitudeString }</MapBottomElement>
     </div>
 }
 

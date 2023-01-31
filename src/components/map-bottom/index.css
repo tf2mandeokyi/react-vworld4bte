@@ -9,6 +9,7 @@
     color: white;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
 }
 
 .vwmap-bottom-left {
