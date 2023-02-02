@@ -13,8 +13,8 @@ const MapBottomElement : React.FC<MapBottomElementProps> = ({ children }: MapBot
 
 
 interface MapBottomProps {
-    camera_coord: vw.CoordZ;
-    cursor_coord: vw.CartographicCoordinate;
+    cameraCoord: ws3d.common.Cartographic;
+    cursorCoord: ws3d.common.Cartographic;
 }
 const MapBottom : React.FC<MapBottomProps> = (props) => {
 
@@ -25,10 +25,10 @@ const MapBottom : React.FC<MapBottomProps> = (props) => {
 
     
     useEffect(() => {
-        setCameraAltitudeString(prettifyMeter(props.camera_coord.z));
-        setCursorAltitudeString(props.cursor_coord.height.toFixed(2) + " m");
-        setCursorLatitudeString(degreeToDMSString(props.cursor_coord.latitudeDD, ['N', 'S']));
-        setCursorLongitudeString(degreeToDMSString(props.cursor_coord.longitudeDD, ['E', 'W']));
+        setCameraAltitudeString(prettifyMeter(props.cameraCoord.height));
+        setCursorAltitudeString(props.cursorCoord.height.toFixed(2) + " m");
+        setCursorLatitudeString(degreeToDMSString(props.cursorCoord.latitudeDD, ['N', 'S']));
+        setCursorLongitudeString(degreeToDMSString(props.cursorCoord.longitudeDD, ['E', 'W']));
     }, [ props ])
 
 

@@ -14,13 +14,6 @@ namespace vw {
     }
 
 
-    interface CartographicCoordinate {
-        latitudeDD: number;
-        longitudeDD: number;
-        height: number;
-    }
-
-
     /** 
      * Map 구성 요소인 control, interaction을 초기에 어느 정도 구성할지 설정 
      */
@@ -121,13 +114,13 @@ namespace vw {
         getCurrentPosition() : { direction: Direction, position: CoordZ };
 
         /** 3D 지도에 등록된 모든 레이어를 반환한다. */
-        getLayerAllElement() : any[]; // TODO
+        getLayerAllElement() : vw.layer.Base[];
 
         /**
          * 3D 지도에 아이디 또는 이름으로 등록된 레이어를 반환한다.
          * @param idOrName 3D 지도 레이어 아이디 혹은 이름
          */
-        getLayerElement(idOrName: string) : any; // TODO
+        getLayerElement<T extends vw.layer.Base>(idOrName: string): T;
 
         /**
          * 주어진 좌표로 이동한다.

@@ -27,7 +27,7 @@ export function dmsStructToString({ signum, deg, min, sec }: DMSStruct, [ positi
     }° ${
         min.toString().padStart(2, '0')
     }' ${
-        sec.toFixed(2).toString().padStart(5, '0')
+        (Math.floor(sec * 100) / 100).toFixed(2).toString().padStart(5, '0')
     }"`
 }
 

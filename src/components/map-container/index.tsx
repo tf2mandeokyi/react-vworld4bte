@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getCameraPositionFromStorage } from "../../lib/local-storage";
 import MapBottom from "../map-bottom";
 import MapNotice from "../map-notice";
 import RightClickMenu from "../rightclick-menu";
-import { getCameraPositionFromStorage } from "../../lib/local-storage";
 
 import './index.css'
 
@@ -12,49 +12,47 @@ type DMIL = vw.DetailedMouseInteractionListener;
 
 const MapContainer : React.FC = () => {
     
-    const [ cameraPosDisplay, setCameraPosDisplay ] = useState<vw.CoordZ>(new vw.CoordZ(0, 0, 0));
-    const [ cursorPosDisplay, setCursorPosDisplay ] = useState<vw.CartographicCoordinate>({
-        latitudeDD: 0, longitudeDD: 0, height: 0
-    });
-    const [ lastCursorCoordinate, setLastCursorCoordinate ] = useState<vw.CartographicCoordinate>();
+    const [ cameraCartographic, setCameraCartographic ] = useState<ws3d.common.Cartographic>(new ws3d.common.Cartographic());
+    const [ cursorPixel, setCursorPixel ] = useState<ws3d.common.Cartesian2>(new ws3d.common.Cartesian2());
+    const [ cursorCartographic, setCursorCartographic ] = useState<ws3d.common.Cartographic>(new ws3d.common.Cartographic());
+    const [ terrainHeight, setTerrainHeight ] = useState<number>(0);
 
     const mapObjectRef = useRef<vw.Map>();
     const closeRef = useRef<() => void>();
+    const requestAnimationRef = useRef<number>(0);
 
 
-    const closeContextMenu : () => void = () => {
-        if(closeRef.current) closeRef.current();
-    }
+    const updateCursorPosition = useCallback((cart2: ws3d.common.Cartesian2) => {
+        let cart3 = ws3d.viewer.scene.pickPosition(cart2);
+        if(!cart3) return;
 
+        let coord = ws3d.common.Cartographic.fromCartesian(cart3);
+        setCursorCartographic(coord);
 
-    const handleMouseLeftClick : DMIL = useCallback((windowPosition, ecefPosition, cartographic) => {
-        setLastCursorCoordinate(cartographic);
+        let terrainHeight = ws3d.viewer.scene.globe.getHeight(coord);
+        setTerrainHeight(terrainHeight);
     }, []);
 
 
-    const handleMouseMove : DMIL = (windowPos, ecefPos, cartographic) => {
-        if(!cartographic) return;
-        
-        if(!mapObjectRef.current) return;
-        let map = mapObjectRef.current;
-
-        setLastCursorCoordinate(cartographic);
-        setCameraPosDisplay(map.getCurrentPosition().position);
-        setCursorPosDisplay(cartographic);
-    }
+    const handleMouseMove : DMIL = useCallback(({ x, y }, _, __) => {
+        let cart2 = new ws3d.common.Cartesian2(x, y);
+        setCursorPixel(cart2);
+        updateCursorPosition(cart2);
+    }, [ updateCursorPosition ])
 
 
-    const handleWheel = useCallback(() => {
-        if(closeRef.current) closeRef.current();
+    const loop = useCallback(() => {
+        // Update camera position
+        let newCoordinate = ws3d.viewer.scene.camera.positionCartographic;
+        if(!cameraCartographic.equals(newCoordinate)) {
+            updateCursorPosition(cursorPixel);
+            closeRef.current?.();
+        }
 
-        if(!mapObjectRef.current) return;
-        let map = mapObjectRef.current;
-        
-        setCameraPosDisplay(map.getCurrentPosition().position);
+        setCameraCartographic(newCoordinate);
 
-        if(!lastCursorCoordinate) return;
-        setCursorPosDisplay(lastCursorCoordinate);
-    }, [ lastCursorCoordinate ]);
+        requestAnimationRef.current = requestAnimationFrame(loop);
+    }, [ updateCursorPosition, cursorPixel, cameraCartographic ]);
 
 
     useEffect(() => {
@@ -66,27 +64,26 @@ const MapContainer : React.FC = () => {
             cameraPosition, cameraPosition
         ));
 
-        map['onClick'].addEventListener(handleMouseLeftClick);
-        map['onMouseMove'].addEventListener(handleMouseMove);
-
-        map['onClick'].addEventListener(closeContextMenu);
-        map['onMouseLeftDown'].addEventListener(closeContextMenu);
-        map['onMouseRightDown'].addEventListener(closeContextMenu);
-
-        document.onwheel = handleWheel;
+        map.onMouseMove.addEventListener(handleMouseMove)
 
         mapObjectRef.current = map;
+    })
+    useEffect(() => {
+        requestAnimationRef.current = requestAnimationFrame(loop);
+        return () => {
+            cancelAnimationFrame(requestAnimationRef.current);
+        }
     })
 
 
     return <div className="vwmap-container">
         <div id="vwmap" />
         <MapBottom 
-            camera_coord={ cameraPosDisplay }
-            cursor_coord={ cursorPosDisplay }
+            cameraCoord={ cameraCartographic }
+            cursorCoord={ cursorCartographic }
         />
         <MapNotice />
-        <RightClickMenu copyCoord={ lastCursorCoordinate } closeRef={ closeRef }/>
+        <RightClickMenu cursorCoordinate={ cursorCartographic } terrainHeight={ terrainHeight } closeRef={ closeRef }/>
     </div>
 }
 
