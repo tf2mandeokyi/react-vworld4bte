@@ -3,7 +3,7 @@ namespace ws3d.common {
     class BoundingSphere {
         static readonly packedLength: number
 
-        static clone(e,t)
+        static clone(e: BoundingSphere, t?: BoundingSphere)
         static computePlaneDistances(e,t,i,n)
         static distanceSquaredTo(e,t)
         static equals(e,t)
@@ -29,7 +29,7 @@ namespace ws3d.common {
 
         constructor(e,t);
 
-        clone(e)
+        clone(e?: BoundingSphere)
         computePlaneDistances(e,t,i)
         distanceSquaredTo(e)
         equals(e)
@@ -41,7 +41,7 @@ namespace ws3d.common {
     class AbstractCartesian<T> {
         static abs(e,t);
         static add(e,t,i);
-        static clone(e,t);
+        static clone(e, t?);
         static distance(e,t);
         static distanceSquared(e,t);
         static divideByScalar(e,t,i);
@@ -71,8 +71,8 @@ namespace ws3d.common {
 
         static readonly packedLength: number;
 
-        clone(e);
-        equals(e);
+        clone(e?: T);
+        equals(e: T);
         equalsEpsilon(e,t,i);
         toString();
     }
@@ -143,7 +143,7 @@ namespace ws3d.common {
     class Cartographic {
         static readonly ZERO: Cartographic
 
-        static clone(e,t);
+        static clone(e: Cartographic, t?: Cartographic);
         static equals(e: Cartographic, t: Cartographic);
         static equalsEpsilon(e: Cartographic, t: Cartographic, i: number);
         static fromCartesian(e: Cartesian3, t?: any, i?: any);
@@ -154,12 +154,12 @@ namespace ws3d.common {
         /** In radians */
         latitude: number;
         /** In degrees */
-        readonly latitudeDD;
+        readonly latitudeDD: number;
 
         /** In radians */
         longitude: number;
         /** In degrees */
-        readonly longitudeDD;
+        readonly longitudeDD: number;
 
         /** In radians */
         height: number;
@@ -172,7 +172,7 @@ namespace ws3d.common {
         constructor(latitude?: number, longitude?: number, height?: number);
 
 
-        clone(e)
+        clone(e?: Cartographic)
         equals(e: Cartographic)
         equalsEpsilon(e: Cartographic, t: number)
         toString()

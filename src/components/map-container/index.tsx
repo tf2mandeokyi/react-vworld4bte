@@ -13,8 +13,8 @@ type DMIL = vw.DetailedMouseInteractionListener;
 const MapContainer : React.FC = () => {
     
     const [ cameraCartographic, setCameraCartographic ] = useState<ws3d.common.Cartographic>(new ws3d.common.Cartographic());
-    const [ cursorPixel, setCursorPixel ] = useState<ws3d.common.Cartesian2>(new ws3d.common.Cartesian2());
     const [ cursorCartographic, setCursorCartographic ] = useState<ws3d.common.Cartographic>(new ws3d.common.Cartographic());
+    const [ cursorPixel, setCursorPixel ] = useState<ws3d.common.Cartesian2>(new ws3d.common.Cartesian2());
     const [ terrainHeight, setTerrainHeight ] = useState<number>(0);
 
     const mapObjectRef = useRef<vw.Map>();
@@ -47,9 +47,8 @@ const MapContainer : React.FC = () => {
         if(!cameraCartographic.equals(newCoordinate)) {
             updateCursorPosition(cursorPixel);
             closeRef.current?.();
+            setCameraCartographic(newCoordinate.clone());
         }
-
-        setCameraCartographic(newCoordinate);
 
         requestAnimationRef.current = requestAnimationFrame(loop);
     }, [ updateCursorPosition, cursorPixel, cameraCartographic ]);
