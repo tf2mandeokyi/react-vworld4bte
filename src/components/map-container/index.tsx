@@ -56,7 +56,7 @@ const MapContainer : React.FC = () => {
         }
 
         requestAnimationRef.current = requestAnimationFrame(loop);
-    }, [ updateCursorPosition, cursorPixel, cameraCartographic ]);
+    }, [ closeRightClickMenu, updateCursorPosition, cursorPixel, cameraCartographic ]);
 
 
     useEffect(() => {

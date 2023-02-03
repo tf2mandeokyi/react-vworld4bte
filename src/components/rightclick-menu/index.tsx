@@ -79,7 +79,7 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
         setBuildingHeight(buildingHeight);
         setModifiedHeight(terrainHeight + distortion * buildingHeight)
         setShow(true);
-    }, [ props, getDistortion ]);
+    }, [ updatePosition, props, getDistortion ]);
 
 
     const handleWindowResize = useCallback(() => {
@@ -87,7 +87,7 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
 
         const downPos = mouseDownPosRef.current;
         if(downPos) updatePosition(downPos)
-    }, [])
+    }, [ updatePosition ])
 
 
     useEffect(() => {
