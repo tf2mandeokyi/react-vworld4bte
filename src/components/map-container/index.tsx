@@ -22,6 +22,11 @@ const MapContainer : React.FC = () => {
     const requestAnimationRef = useRef<number>(0);
 
 
+    const closeRightClickMenu = useCallback(() => {
+        closeRef.current?.();
+    }, [])
+
+
     const updateCursorPosition = useCallback((cart2: ws3d.common.Cartesian2) => {
         let cart3 = ws3d.viewer.scene.pickPosition(cart2);
         if(!cart3) return;
@@ -46,7 +51,7 @@ const MapContainer : React.FC = () => {
         let newCoordinate = ws3d.viewer.scene.camera.positionCartographic;
         if(!cameraCartographic.equals(newCoordinate)) {
             updateCursorPosition(cursorPixel);
-            closeRef.current?.();
+            closeRightClickMenu();
             setCameraCartographic(newCoordinate.clone());
         }
 
@@ -63,6 +68,7 @@ const MapContainer : React.FC = () => {
             cameraPosition, cameraPosition
         ));
 
+        map.onMouseLeftDown.addEventListener(closeRightClickMenu)
         map.onMouseMove.addEventListener(handleMouseMove)
 
         mapObjectRef.current = map;
