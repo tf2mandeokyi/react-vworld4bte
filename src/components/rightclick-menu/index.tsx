@@ -115,7 +115,7 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
             <li onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD}`) }>
                 { coordinate?.latitudeDD?.toFixed(5) }, { coordinate?.longitudeDD?.toFixed(5) }
             </li>
-            <li onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD}, ${modifiedHeight}`) }>
+            <li onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD} ${modifiedHeight}`) }>
                 왜곡 보정 고도 = { modifiedHeight.toFixed(2) }m
             </li>
             <hr/>
