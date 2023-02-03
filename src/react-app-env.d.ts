@@ -1,1 +1,0 @@
-import { GeographicProjection } from "./lib/bte-projection/geographic";

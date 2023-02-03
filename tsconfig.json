@@ -6,6 +6,9 @@
             "dom.iterable",
             "esnext"
         ],
+        "types": [
+            "node"
+        ],
         "typeRoots": [
             "src/vw/*/*.d.ts",
             "src/ws3d/*/*.d.ts"

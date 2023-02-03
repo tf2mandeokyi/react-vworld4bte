@@ -1,0 +1,26 @@
+.loading-fail-page {
+    position: absolute;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-fail-message {
+    width: fit-content;
+    height: fit-content;
+    padding: 40px;
+    background-color: white;
+    border-radius: 40px;
+    box-shadow: 7px 7px 0px rgb(0, 0, 0, 0.3);
+}
+
+.loading-fail-message ul {
+    padding-left: 40px;
+}
+
+.loading-fail-message hr {
+    margin: 20px 0;
+}
