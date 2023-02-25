@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { BTE_PROJECTION } from 'bte-projection';
 import { textToClipboard } from '../../lib/clipboard';
-import LocalizedStrings, { LocalizedStringsMethods } from 'react-localization';
+import LocalizedStrings from 'react-localization';
 
 import './index.css'
 
