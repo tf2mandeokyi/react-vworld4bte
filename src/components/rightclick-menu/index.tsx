@@ -1,8 +1,34 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { BTE_PROJECTION } from 'bte-projection';
 import { textToClipboard } from '../../lib/clipboard';
+import LocalizedStrings, { LocalizedStringsMethods } from 'react-localization';
 
 import './index.css'
+
+
+interface IStrings {
+    coord: string;
+    yCoord: string;
+    terrain: string;
+    height: string;
+    distortion: string;
+}
+const strings = new LocalizedStrings<IStrings>({
+    en: {
+        coord: 'Coord.',
+        yCoord: 'Y coord.',
+        terrain: 'Terrain',
+        height: 'Height',
+        distortion: 'Distortion'
+    },
+    ko: {
+        coord: '좌표',
+        yCoord: 'Y 좌표',
+        terrain: '지형',
+        height: '높이',
+        distortion: '왜곡값'
+    }
+})
 
 
 interface RightClickMenuProps {
@@ -20,7 +46,7 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
     const [ anchorPoint, setAnchorPoint ] = useState<vw.Pixel>({ x: 0, y: 0 });
     const [ show, setShow ] = useState<boolean>(false);
 
-    const menuRef = useRef<HTMLUListElement>(null);
+    const menuRef = useRef<HTMLTableElement>(null);
     const mouseDownPosRef = useRef<vw.Pixel>();
 
 
@@ -103,7 +129,7 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
 
 
     return (
-        <ul 
+        <div 
             className="rightclickmenu"
             ref={ menuRef }
             style={{
@@ -112,30 +138,37 @@ const RightClickMenu : React.FC<RightClickMenuProps> = (props) => {
                 visibility: show ? 'visible' : 'hidden'
             }}
         >
-            <li onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD}`) }>
-                { coordinate?.latitudeDD?.toFixed(5) }, { coordinate?.longitudeDD?.toFixed(5) }
-            </li>
-            <li onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD} ${modifiedHeight}`) }>
-                왜곡 보정 고도 = { modifiedHeight.toFixed(2) }m
-            </li>
-            <hr/>
-            <li onClick={ () => clipboard(terrainHeight) }>
-                지형 고도 = { terrainHeight.toFixed(2) }m
-            </li>
-            {
-                buildingHeight !== 0 ? <>
-                    <li onClick={ () => clipboard(coordinate?.height) }>
-                        측정 고도 = { coordinate?.height.toFixed(2) }m
-                    </li>
-                    <li onClick={ () => clipboard(buildingHeight) }>
-                        건물 높이 = { buildingHeight.toFixed(2) }m
-                    </li>
-                </> : <></>
-            }
-            <li onClick={ () => clipboard(distortionRate) }>
-                왜곡값 = x{ distortionRate.toFixed(5) }
-            </li>
-        </ul>
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD}`) }>
+                        <td>{ strings.formatString(strings.coord) }</td>
+                        <td>{ coordinate?.latitudeDD?.toFixed(5) }, { coordinate?.longitudeDD?.toFixed(5) }</td>
+                    </tr>
+                    <tr
+                        className='bordered'
+                        onClick={ () => clipboard(`${coordinate?.latitudeDD}, ${coordinate?.longitudeDD} ${modifiedHeight}`) }
+                    >
+                        <td>{ strings.formatString(strings.yCoord) }</td>
+                        <td>{ modifiedHeight.toFixed(2) }m</td>
+                    </tr>
+                    <tr onClick={ () => clipboard(terrainHeight) }>
+                        <td>{ strings.formatString(strings.terrain) }</td>
+                        <td>{ terrainHeight.toFixed(2) }m</td>
+                    </tr>
+                    { buildingHeight !== 0 ? <>
+                        <tr onClick={ () => clipboard(buildingHeight) }>
+                            <td>{ strings.formatString(strings.height) }</td>
+                            <td>{ buildingHeight.toFixed(2) }m</td>
+                        </tr>
+                    </> : <></> }
+                    <tr onClick={ () => clipboard(distortionRate) }>
+                        <td>{ strings.formatString(strings.distortion) }</td>
+                        <td>x{ distortionRate.toFixed(5) }</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     )
 }
 
