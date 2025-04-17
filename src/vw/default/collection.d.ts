@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 namespace vw {
     /**
      * 배열을 확장한 컬렉션으로 아이템을 다루는 메소드와 이벤트를 제공한다.

@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 namespace vw {
     /** 
      * vw.Map에서 사용하는 배경지도의 종류를 선언하는 열거형. 

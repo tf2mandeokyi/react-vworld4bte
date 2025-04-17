@@ -1,8 +1,10 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 namespace vw {
     /**
      * 카메라 객체. 맵의 뷰를 설정하고 조정한다. 맵 객체 내에서 생성되고, 개발자가 직접 생성하지 않는다.
      */
-     declare class Camera extends vw.Object {
+    declare class Camera extends vw.Object {
         action: any;
         bound: any;
         canMoveUnderTerrain: boolean;

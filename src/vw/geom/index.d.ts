@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { CartographicCoordinate, Collection, Color, Coord, CoordZ, Extent, Feature } from ".";
 import { HorizontalOrigin, LabelStyle, VerticalOrigin } from "../ws3d/common";
 

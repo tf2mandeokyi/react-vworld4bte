@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 namespace ws3d.common {
 
     class BoundingSphere {
