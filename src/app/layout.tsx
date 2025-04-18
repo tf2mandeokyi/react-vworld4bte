@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-sync-scripts */
-
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from 'next/font/google';
 import "./globals.css";
@@ -22,9 +20,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="w-full h-full">
-            <head>
-                <script src={ `https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=${process.env.NEXT_PUBLIC_VWORLD_KEY}` }/>
-            </head>
             <body className={ `w-full h-full ${notoSansKr.className}` }>
                 {children}
             </body>
