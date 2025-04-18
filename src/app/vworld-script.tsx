@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-sync-scripts */
+
 interface VWorldScriptProps {
     onLoad: () => void;
     onError: () => void;
